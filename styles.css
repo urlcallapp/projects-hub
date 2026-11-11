@@ -227,7 +227,8 @@ body {
 
 .card-meta { font-size: 0.8rem; color: #9aa1ba; }
 
-.card-links { display: flex; gap: 10px; margin-top: 4px; }
+.card-links { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.link-row { display: flex; gap: 8px; align-items: stretch; }
 .btn {
   display: inline-flex;
   align-items: center;
@@ -251,6 +252,24 @@ body {
 }
 .btn-git:hover { background: var(--bg); filter: none; }
 .btn-git.solo { flex: 1; }
+
+.btn-copy {
+  flex: 0 0 auto;
+  width: 42px;
+  padding: 0;
+  background: #fff;
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-copy svg { width: 16px; height: 16px; }
+.btn-copy:hover { background: var(--bg); }
+.btn-copy.copied { border-color: #1f883d; color: #1f883d; }
+.btn-copy.copy-failed { border-color: #c00; color: #c00; }
 
 .no-site {
   font-size: 0.8rem;

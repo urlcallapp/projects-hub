@@ -22,6 +22,11 @@
   var LINK_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
 
+  var COPY_SVG =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  var CHECK_SVG =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
   // Card icons: self-contained inline SVG (stroke, 24x24) so nothing
   // depends on the viewer's emoji font. Add a new key here when a new
   // project needs a new icon.
@@ -108,17 +113,27 @@
         return '<span class="card-tag">' + t + "</span>";
       }).join("");
 
+      var siteUrl = PAGES_BASE + p.name + "/";
       var links;
       if (p.pages) {
         links =
-          '<a class="btn btn-site" href="' + PAGES_BASE + p.name + '/" target="_blank" rel="noopener">' +
-            LINK_SVG + T.liveSite + "</a>" +
-          '<a class="btn btn-git" href="' + gh + '" target="_blank" rel="noopener">' +
-            GIT_SVG + "GitHub</a>";
+          '<div class="link-row">' +
+            '<a class="btn btn-site" href="' + siteUrl + '" target="_blank" rel="noopener">' +
+              LINK_SVG + T.liveSite + "</a>" +
+            copyBtn(siteUrl, T.copySite) +
+          "</div>" +
+          '<div class="link-row">' +
+            '<a class="btn btn-git" href="' + gh + '" target="_blank" rel="noopener">' +
+              GIT_SVG + "GitHub</a>" +
+            copyBtn(gh, T.copyGit) +
+          "</div>";
       } else {
         links =
-          '<a class="btn btn-git solo" href="' + gh + '" target="_blank" rel="noopener">' +
-            GIT_SVG + "GitHub</a>" +
+          '<div class="link-row">' +
+            '<a class="btn btn-git solo" href="' + gh + '" target="_blank" rel="noopener">' +
+              GIT_SVG + "GitHub</a>" +
+            copyBtn(gh, T.copyGit) +
+          "</div>" +
           '<span class="no-site">' + T.noSite + "</span>";
       }
 
@@ -166,4 +181,58 @@
 
   renderStats();
   render();
+  // ---------- Copy link buttons ----------
+  function copyBtn(url, label) {
+    return (
+      '<button type="button" class="btn-copy" data-copy="' + url +
+      '" aria-label="' + label + '" title="' + label + '">' + COPY_SVG + "</button>"
+    );
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(
+        function () { return true; },
+        function () { return legacyCopy(text); }
+      );
+    }
+    return Promise.resolve(legacyCopy(text));
+  }
+
+  function legacyCopy(text) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  grid.addEventListener("click", function (ev) {
+    var btn = ev.target.closest(".btn-copy");
+    if (!btn) return;
+    copyText(btn.getAttribute("data-copy")).then(function (ok) {
+      var label = btn.getAttribute("aria-label");
+      btn.classList.add(ok ? "copied" : "copy-failed");
+      btn.innerHTML = ok ? CHECK_SVG : COPY_SVG;
+      btn.setAttribute("aria-label", ok ? T.copied : T.copyFailed);
+      btn.setAttribute("title", ok ? T.copied : T.copyFailed);
+      clearTimeout(btn._revert);
+      btn._revert = setTimeout(function () {
+        btn.classList.remove("copied", "copy-failed");
+        btn.innerHTML = COPY_SVG;
+        btn.setAttribute("aria-label", label);
+        btn.setAttribute("title", label);
+      }, 1600);
+    });
+  });
+
 })();

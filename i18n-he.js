@@ -7,6 +7,10 @@ const HUB_I18N = {
   showing: (n) => `מוצגים ${n} פרויקטים`,
   found: (v, t) => `נמצאו ${v} מתוך ${t} פרויקטים`,
   liveSite: "אתר חי",
+  copySite: "העתק קישור לאתר",
+  copyGit: "העתק קישור ל-GitHub",
+  copied: "הועתק!",
+  copyFailed: "ההעתקה נכשלה",
   noSite: "אין אתר חי — קוד בלבד",
   updated: "עודכן:",
   formatDate: (iso) => {

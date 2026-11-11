@@ -7,6 +7,10 @@ const HUB_I18N = {
   showing: (n) => `Showing ${n} projects`,
   found: (v, t) => `Found ${v} of ${t} projects`,
   liveSite: "Live site",
+  copySite: "Copy live site link",
+  copyGit: "Copy GitHub link",
+  copied: "Copied!",
+  copyFailed: "Copy failed",
   noSite: "No live site — code only",
   updated: "Updated:",
   formatDate: (iso) => {
