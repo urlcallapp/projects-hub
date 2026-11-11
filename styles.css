@@ -41,6 +41,24 @@ body {
 
 .hero-inner { position: relative; max-width: 900px; margin: 0 auto; }
 
+.lang-switch {
+  position: absolute;
+  top: 18px;
+  inset-inline-end: 20px;
+  z-index: 2;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 7px 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+  transition: background 0.15s;
+}
+.lang-switch:hover { background: rgba(255, 255, 255, 0.25); }
+
 .hero h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.5px; }
 .hero-emoji {
   display: inline-grid;
@@ -100,7 +118,8 @@ body {
 }
 #search {
   width: 100%;
-  padding: 13px 44px 13px 16px;
+  padding: 13px 16px;
+  padding-inline-start: 44px;
   font-size: 1.05rem;
   font-family: inherit;
   color: var(--ink);

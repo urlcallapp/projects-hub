@@ -4,6 +4,9 @@
   var GH_BASE = "https://github.com/urlcallapp/";
   var PAGES_BASE = "https://urlcallapp.github.io/";
 
+  var T = HUB_I18N; // loaded from i18n-en.js or i18n-he.js before this file
+  var IS_HE = T.lang === "he";
+
   var grid = document.getElementById("grid");
   var chipsEl = document.getElementById("chips");
   var searchEl = document.getElementById("search");
@@ -44,6 +47,10 @@
     );
   }
 
+  // Per-language fields
+  function desc(p) { return IS_HE ? p.desc_he : p.desc_en; }
+  function tags(p) { return IS_HE ? p.tags_he : p.tags_en; }
+
   // Newest first
   var projects = PROJECTS.slice().sort(function (a, b) {
     return (b.updated || "").localeCompare(a.updated || "");
@@ -52,23 +59,17 @@
   // Tags in use only, first-seen order
   var tagsInUse = [];
   projects.forEach(function (p) {
-    (p.tags || []).forEach(function (t) {
+    (tags(p) || []).forEach(function (t) {
       if (tagsInUse.indexOf(t) === -1) tagsInUse.push(t);
     });
   });
 
-  function formatDate(iso) {
-    if (!iso) return "";
-    var parts = iso.split("-");
-    return parts[2] + "/" + parts[1] + "/" + parts[0];
-  }
-
   function matches(p) {
-    if (state.tag && (p.tags || []).indexOf(state.tag) === -1) return false;
+    if (state.tag && (tags(p) || []).indexOf(state.tag) === -1) return false;
     if (!state.query) return true;
     var q = state.query.toLowerCase();
-    var hay = [p.name, p.desc, p.lang || ""]
-      .concat(p.tags || [])
+    var hay = [p.name, desc(p), p.lang || ""]
+      .concat(tags(p) || [])
       .join(" ")
       .toLowerCase();
     return hay.indexOf(q) !== -1;
@@ -77,13 +78,13 @@
   function renderStats() {
     var sites = projects.filter(function (p) { return p.pages; }).length;
     statsEl.innerHTML =
-      '<span class="stat">' + projects.length + " פרויקטים</span>" +
-      '<span class="stat">' + sites + " אתרים חיים</span>";
+      '<span class="stat">' + T.statProjects(projects.length) + "</span>" +
+      '<span class="stat">' + T.statSites(sites) + "</span>";
   }
 
   function renderChips() {
     var html = '<button class="chip' + (state.tag === null ? " active" : "") +
-      '" data-tag="">הכל</button>';
+      '" data-tag="">' + T.all + "</button>";
     tagsInUse.forEach(function (t) {
       html += '<button class="chip' + (state.tag === t ? " active" : "") +
         '" data-tag="' + t + '">' + t + "</button>";
@@ -96,14 +97,14 @@
 
     countEl.textContent =
       visible.length === projects.length
-        ? "מוצגים " + projects.length + " פרויקטים"
-        : "נמצאו " + visible.length + " מתוך " + projects.length + " פרויקטים";
+        ? T.showing(projects.length)
+        : T.found(visible.length, projects.length);
 
     emptyEl.hidden = visible.length !== 0;
 
     grid.innerHTML = visible.map(function (p) {
       var gh = GH_BASE + p.name;
-      var tags = (p.tags || []).map(function (t) {
+      var tagSpans = (tags(p) || []).map(function (t) {
         return '<span class="card-tag">' + t + "</span>";
       }).join("");
 
@@ -111,14 +112,14 @@
       if (p.pages) {
         links =
           '<a class="btn btn-site" href="' + PAGES_BASE + p.name + '/" target="_blank" rel="noopener">' +
-            LINK_SVG + "אתר חי</a>" +
+            LINK_SVG + T.liveSite + "</a>" +
           '<a class="btn btn-git" href="' + gh + '" target="_blank" rel="noopener">' +
             GIT_SVG + "GitHub</a>";
       } else {
         links =
           '<a class="btn btn-git solo" href="' + gh + '" target="_blank" rel="noopener">' +
             GIT_SVG + "GitHub</a>" +
-          '<span class="no-site">אין אתר חי — קוד בלבד</span>';
+          '<span class="no-site">' + T.noSite + "</span>";
       }
 
       return (
@@ -130,9 +131,9 @@
               (p.lang ? '<span class="card-lang">' + p.lang + "</span>" : "") +
             "</div>" +
           "</div>" +
-          '<p class="card-desc">' + p.desc + "</p>" +
-          '<div class="card-tags">' + tags + "</div>" +
-          '<div class="card-meta">עודכן: ' + formatDate(p.updated) + "</div>" +
+          '<p class="card-desc">' + desc(p) + "</p>" +
+          '<div class="card-tags">' + tagSpans + "</div>" +
+          '<div class="card-meta">' + T.updated + " " + T.formatDate(p.updated) + "</div>" +
           '<div class="card-links">' + links + "</div>" +
         "</article>"
       );

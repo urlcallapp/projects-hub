@@ -1,41 +1,44 @@
-# מרכז הפרויקטים 🗂️
+# Projects Hub 🗂️
 
-דף נחיתה שמרכז את כל הריפואים של [urlcallapp](https://github.com/urlcallapp) במקום אחד: קישור לקוד ב-GitHub, קישור לאתר ה-Pages החי (כשיש), חיפוש חופשי וסינון לפי תגיות.
+A bilingual landing page that brings all of [urlcallapp](https://github.com/urlcallapp)'s repos into one place: a link to the code on GitHub, a link to the live GitHub Pages site (when one exists), free-text search and tag filters.
 
-**האתר החי:** https://urlcallapp.github.io/projects-hub/
+**Live site:** https://urlcallapp.github.io/projects-hub/ (English, default) · https://urlcallapp.github.io/projects-hub/he/ (עברית)
 
-## מה נכנס למרכז
+## What belongs in the hub
 
-המרכז מציג רק פרויקטים שעבדנו עליהם ביחד לאחרונה — בלי ריפואים ישנים או אתרי תיק עבודות (portfolio) מהחשבון. הרשימה ידנית בכוונה: אין ייבוא אוטומטי של כל הריפואים בחשבון, וגם בעתיד מוסיפים לכאן רק פרויקטים שמתאימים לכלל הזה.
+The hub lists only projects we worked on together recently — no old repos or portfolio sites from the account. The list is manual on purpose: there is no automatic import of every repo in the account, and future additions should follow the same rule.
 
-## איך מוסיפים פרויקט חדש
+## Adding a new project
 
-כל התוכן יושב בקובץ אחד: [`projects.js`](projects.js). לא נוגעים ב-HTML, CSS או `app.js`.
+All content lives in one file: [`projects.js`](projects.js). You never touch the HTML, CSS or `app.js`.
 
-1. פותחים את `projects.js`.
-2. מעתיקים בלוק של פרויקט קיים ומדביקים אותו ברשימה.
-3. מעדכנים את השדות:
+1. Open `projects.js`.
+2. Copy an existing project block and paste it into the list.
+3. Update the fields — the hub is bilingual, so fill in both languages:
 
-| שדה | משמעות |
+| Field | Meaning |
 | --- | --- |
-| `name` | שם הריפו בדיוק כפי שהוא מופיע בכתובת ב-GitHub |
-| `desc` | תיאור קצר בעברית |
-| `icon` | אייקון הכרטיס, אחד מהשמות שמוגדרים ב-`app.js`: `gamepad`, `graph`, `package`, `slides`, `users`, `store`, `code`, `anchor`, `refresh`, `terminal` |
-| `hue` | גוון צבע של הכרטיס והאייקון, מספר בין 0 ל-360 |
-| `lang` | שפת התכנות הראשית |
-| `tags` | תגיות לפילטר. שבב הסינון נוצר אוטומטית לכל תגית שבשימוש |
-| `pages` | `true` אם יש אתר חי בכתובת `urlcallapp.github.io/<name>/`, אחרת `false` (והכרטיס יציג קישור לקוד בלבד) |
-| `updated` | תאריך עדכון אחרון, `yyyy-mm-dd` |
+| `name` | Repo name exactly as it appears in the GitHub URL |
+| `desc_en` | Short description in English |
+| `desc_he` | תיאור קצר בעברית |
+| `icon` | Card icon, one of the names defined in `app.js`: `gamepad`, `graph`, `package`, `slides`, `users`, `store`, `code`, `anchor`, `refresh`, `terminal` |
+| `hue` | Card and icon color hue, a number between 0 and 360 |
+| `lang` | Main programming language |
+| `tags_en` / `tags_he` | Filter tags per language. A filter chip is created automatically for every tag in use |
+| `pages` | `true` if a live site exists at `urlcallapp.github.io/<name>/`, otherwise `false` (the card then shows a code-only link) |
+| `updated` | Last update date, `yyyy-mm-dd` |
 
-4. דוחפים ל-`main` — האתר מתעדכן מעצמו.
+4. Push to `main` — the site updates itself.
 
-הכרטיסים ממוינים אוטומטית לפי `updated`, מהחדש לישן, ומונה הפרויקטים בראש העמוד מתעדכן לבד.
+Cards are sorted automatically by `updated`, newest first, and the project counter at the top updates on its own.
 
-## מבנה
+## Structure
 
-- `index.html` — שלד העמוד
-- `styles.css` — עיצוב
-- `app.js` — חיפוש, פילטרים ורינדור הכרטיסים
-- `projects.js` — **הקובץ היחיד שעורכים** כשמוסיפים או מעדכנים פרויקט
+- `index.html` — English page (default), LTR
+- `he/index.html` — Hebrew page, RTL; shares all assets with the English page
+- `i18n-en.js` / `i18n-he.js` — UI strings per language
+- `styles.css` — styling (logical properties, so one stylesheet serves both directions)
+- `app.js` — search, filters and card rendering; picks strings and project fields by page language
+- `projects.js` — **the only file you edit** when adding or updating a project
 
-אתר סטטי לחלוטין, בלי build ובלי תלויות.
+Fully static site, no build step and no dependencies.
