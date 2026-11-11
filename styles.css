@@ -299,7 +299,7 @@ body {
 
 /* ---------- Mobile ---------- */
 @media (max-width: 560px) {
-  .hero { padding: 40px 16px 64px; }
+  .hero { padding: 68px 16px 64px; } /* top padding clears the absolutely-positioned language switch */
   .hero h1 { font-size: 1.9rem; }
   .subtitle { font-size: 1rem; }
   .grid { grid-template-columns: 1fr; }
