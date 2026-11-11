@@ -116,7 +116,7 @@ const PROJECTS = [
     lang: "Go",
     tags_en: ["Kubernetes", "Dev tools"],
     tags_he: ["קוברנטיס", "כלי פיתוח"],
-    pages: false,
-    updated: "2026-11-03",
+    pages: true,
+    updated: "2026-11-11",
   },
 ];
