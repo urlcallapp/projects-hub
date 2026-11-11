@@ -24,6 +24,18 @@
 
 const PROJECTS = [
   {
+    name: "urlcallapp",
+    desc_en: "Colorful builder for clickable links that trigger native actions: call, SMS, WhatsApp, email, FaceTime.",
+    desc_he: "בונה צבעוני לקישורים לחיצים שמפעילים פעולות: שיחה, SMS, וואטסאפ, מייל, FaceTime.",
+    icon: "anchor",
+    hue: 320,
+    lang: "HTML",
+    tags_en: ["Tools", "Web"],
+    tags_he: ["כלים", "ווב"],
+    pages: true,
+    updated: "2026-11-11",
+  },
+  {
     name: "kids-learn-games",
     desc_en: "Hebrew learning-games portal for kids, with search, tags and saved progress.",
     desc_he: "פורטל משחקי למידה בעברית לילדים, עם חיפוש, תגיות ושמירת התקדמות.",
