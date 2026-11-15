@@ -324,3 +324,18 @@ body {
   .grid { grid-template-columns: 1fr; }
   .container { padding: 0 14px 32px; }
 }
+
+.sort-row { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 0.95rem; }
+#sort {
+  flex: 1;
+  max-width: 280px;
+  min-width: 0;
+  padding: 9px 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fafbfe;
+}
+#sort:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
