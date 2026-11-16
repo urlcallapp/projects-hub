@@ -131,4 +131,16 @@ const PROJECTS = [
     pages: true,
     updated: "2026-11-11",
   },
+  {
+    name: "WinGetty",
+    desc_en: "Self-hosted winget package source for air-gapped Windows networks, with a user catalog and one-click install.",
+    desc_he: "מקור חבילות winget לרשתות Windows מנותקות מהאינטרנט, עם קטלוג למשתמשים והתקנה בלחיצה.",
+    icon: "package",
+    hue: 265,
+    lang: "Python",
+    tags_en: ["Offline", "Dev tools"],
+    tags_he: ["אופליין", "כלי פיתוח"],
+    pages: true,
+    updated: "2026-11-13",
+  },
 ];
